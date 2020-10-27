@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_OK);
 
                 //Complete login activity once successful and opens ExploreActivity
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                Intent i = new Intent(LoginActivity.this, ExploreActivity.class);
                 startActivity(i);
 //                finish();
             }
@@ -133,9 +133,5 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
-    }
-    public void loginAccepted(View view){
-        Intent i = new Intent(LoginActivity.this, ExploreActivity.class);
-        startActivity(i);
     }
 }
