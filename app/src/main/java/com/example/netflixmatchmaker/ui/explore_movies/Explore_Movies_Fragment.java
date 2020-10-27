@@ -1,4 +1,4 @@
-package com.example.netflixmatchmaker.ui.home;
+package com.example.netflixmatchmaker.ui.explore_movies;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.netflixmatchmaker.R;
 
-public class HomeFragment extends Fragment {
+public class Explore_Movies_Fragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private Explore_Movies_ViewModel dashboardViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_my_list, container, false);
-        final TextView textView = root.findViewById(R.id.text_my_list);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        dashboardViewModel =
+                ViewModelProviders.of(this).get(Explore_Movies_ViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_explore_movies, container, false);
+        final TextView textView = root.findViewById(R.id.text_explore_movies);
+        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

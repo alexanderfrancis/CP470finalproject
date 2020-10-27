@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_mylist"
-        android:name="com.example.netflixmatchmaker.ui.home.HomeFragment"
+        android:name="com.example.netflixmatchmaker.ui.my_list.My_List_Fragment"
         android:label="@string/title_my_list"
         tools:layout="@layout/fragment_my_list" />
 
     <fragment
         android:id="@+id/navigation_explore_movies"
-        android:name="com.example.netflixmatchmaker.ui.dashboard.DashboardFragment"
+        android:name="com.example.netflixmatchmaker.ui.explore_movies.Explore_Movies_Fragment"
         android:label="@string/title_explore_movies"
         tools:layout="@layout/fragment_explore_movies" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.example.netflixmatchmaker.ui.notifications.NotificationsFragment"
+        android:name="com.example.netflixmatchmaker.ui.settings.Settings_Fragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

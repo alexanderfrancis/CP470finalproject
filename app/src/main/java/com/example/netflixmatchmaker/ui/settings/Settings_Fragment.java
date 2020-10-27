@@ -1,4 +1,4 @@
-package com.example.netflixmatchmaker.ui.notifications;
+package com.example.netflixmatchmaker.ui.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,14 +14,14 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.netflixmatchmaker.R;
 
-public class NotificationsFragment extends Fragment {
+public class Settings_Fragment extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
+    private Settings_ViewModel notificationsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
+                ViewModelProviders.of(this).get(Settings_ViewModel.class);
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
         final TextView textView = root.findViewById(R.id.text_settings);
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
