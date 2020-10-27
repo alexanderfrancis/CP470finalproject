@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -22,7 +23,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.netflixmatchmaker.ExploreActivity;
+import com.example.netflixmatchmaker.MainActivity;
 import com.example.netflixmatchmaker.R;
+import com.example.netflixmatchmaker.SplashActivity;
 import com.example.netflixmatchmaker.ui.login.LoginViewModel;
 import com.example.netflixmatchmaker.ui.login.LoginViewModelFactory;
 
@@ -73,8 +77,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 setResult(Activity.RESULT_OK);
 
-                //Complete and destroy login activity once successful
-                finish();
+                //Complete login activity once successful and opens ExploreActivity
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(i);
+//                finish();
             }
         });
 
@@ -127,5 +133,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+    }
+    public void loginAccepted(View view){
+        Intent i = new Intent(LoginActivity.this, ExploreActivity.class);
+        startActivity(i);
     }
 }
