@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "29935103662",
+    "firebase_url": "https://cuddlebug-eec05.firebaseio.com",
+    "project_id": "cuddlebug-eec05",
+    "storage_bucket": "cuddlebug-eec05.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29935103662:android:8f9ab2c7e2f56cd8b1873f",
+        "android_client_info": {
+          "package_name": "com.example.netflixmatchmaker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "29935103662-arl1oln79pvd42v332em2tsuq68elqjb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.netflixmatchmaker",
+            "certificate_hash": "1e3767ea2f86678ada3041fac0038eca1f854681"
+          }
+        },
+        {
+          "client_id": "29935103662-9gd9uqt1jajc525jlsm8hgofr7gr18tu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAMIqlb0TsfzW2Uv6mEblIwiQK6WX7StY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "29935103662-9gd9uqt1jajc525jlsm8hgofr7gr18tu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
