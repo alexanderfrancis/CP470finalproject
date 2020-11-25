@@ -33,6 +33,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -107,7 +108,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Log.i(TAG, "Handle sign in result" + result.isSuccess());
         if (result.isSuccess()){
             GoogleSignInAccount acct = result.getSignInAccount();
-            statusTextView.setText("Hell0" + acct.getDisplayName());
+            statusTextView.setText("Hell0 " + acct.getDisplayName());
             Intent i = new Intent(LoginActivity.this, ExploreActivity.class);
             startActivity(i);
             finish();
@@ -130,4 +131,5 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         startActivity(i);
 
     }
+
 }
