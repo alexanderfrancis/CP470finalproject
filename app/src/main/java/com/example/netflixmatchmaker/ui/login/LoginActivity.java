@@ -2,136 +2,132 @@ package com.example.netflixmatchmaker.ui.login;
 
 import android.app.Activity;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
+import android.util.Log;
+
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
+
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.netflixmatchmaker.ExploreActivity;
-import com.example.netflixmatchmaker.MainActivity;
 import com.example.netflixmatchmaker.R;
-import com.example.netflixmatchmaker.SplashActivity;
-import com.example.netflixmatchmaker.ui.login.LoginViewModel;
-import com.example.netflixmatchmaker.ui.login.LoginViewModelFactory;
 
-public class LoginActivity extends AppCompatActivity {
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.util.concurrent.TimeUnit;
+
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
+
+    SignInButton signInButton;
+    Button signOutButton;
+    TextView statusTextView;
+    GoogleApiClient mGoogleApiClient;
+    private static final String TAG = "LoginActivity";
+    private static final int RC_SIGN_IN = 9001;
 
     private LoginViewModel loginViewModel;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, (GoogleApiClient.OnConnectionFailedListener) this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
 
-        final EditText usernameEditText = findViewById(R.id.username);
-        final EditText passwordEditText = findViewById(R.id.password);
-        final Button loginButton = findViewById(R.id.login);
-        final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+        statusTextView = (TextView) findViewById(R.id.statusTextView);
+        signInButton = (SignInButton) findViewById(R.id.signInButton);
+        signInButton.setOnClickListener(this);
 
-        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+        signOutButton = (Button) findViewById(R.id.signOutButton);
+        signOutButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.signInButton:
+                signIn();
+                break;
+            case R.id.signOutButton:
+                signOut();
+                break;
+        }
+    }
+    public void signIn(){
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN){
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d(TAG, "Connection Failed" + connectionResult);
+    }
+
+    private void handleSignInResult(GoogleSignInResult result){
+        Log.i(TAG, "Handle sign in result" + result.isSuccess());
+        if (result.isSuccess()){
+            GoogleSignInAccount acct = result.getSignInAccount();
+            statusTextView.setText("Hell0" + acct.getDisplayName());
+            Intent i = new Intent(LoginActivity.this, ExploreActivity.class);
+            startActivity(i);
+            finish();
+        }else{
+            Log.i(TAG,"Failed to sign in");
+        }
+
+    }
+
+    private void signOut(){
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
-                if (loginFormState == null) {
-                    return;
-                }
-                loginButton.setEnabled(loginFormState.isDataValid());
-                if (loginFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
-                }
-                if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
-                }
-            }
-        });
-
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
-            @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
-                    return;
-                }
-                loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
-                }
-                setResult(Activity.RESULT_OK);
-
-                //Complete login activity once successful and opens ExploreActivity
-                Intent i = new Intent(LoginActivity.this, ExploreActivity.class);
-                startActivity(i);
-//                finish();
-            }
-        });
-
-        TextWatcher afterTextChangedListener = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // ignore
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-            }
-        };
-        usernameEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
-                }
-                return false;
-            }
-        });
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+            public void onResult(@NonNull Status status) {
+                statusTextView.setText("Signed Out");
             }
         });
     }
+    public void emailSignIn(View view){
+        Intent i = new Intent(LoginActivity.this, ExploreActivity.class);
+        startActivity(i);
 
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-//        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-    }
-
-    private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 }

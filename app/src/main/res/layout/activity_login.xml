@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/emailSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
@@ -53,13 +53,28 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="64dp"
-        android:enabled="false"
+        android:enabled="true"
+        android:onClick="emailSignIn"
         android:text="@string/action_sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.052" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/signInButton"
+        android:layout_width="165dp"
+        android:layout_height="46dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="328dp"
+        android:layout_marginEnd="108dp"
+        android:textAlignment="center"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/loading"
@@ -76,4 +91,24 @@
         app:layout_constraintStart_toStartOf="@+id/password"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
+
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="164dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailSignIn" />
+
+    <Button
+        android:id="@+id/signOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="148dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
