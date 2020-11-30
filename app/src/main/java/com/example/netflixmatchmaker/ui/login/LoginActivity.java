@@ -55,7 +55,7 @@ import java.io.PrintWriter;
 import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends AppCompatActivity {
-
+    //TEST
     SignInButton signInButton;
     Button signOutButton;
     TextView statusTextView;
