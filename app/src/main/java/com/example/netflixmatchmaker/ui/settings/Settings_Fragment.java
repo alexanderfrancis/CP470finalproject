@@ -41,8 +41,8 @@ public class Settings_Fragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Log.i("BNSDFNKLA", "BLAH");
         if(user!=null){
-            displayName = (TextView) getView().findViewById(R.id.displayName);
-            displayName.setText("Display Name: " + user);
+//            displayName = (TextView) getView().findViewById(R.id.displayName);
+//            displayName.setText("Display Name: " + user);
             Log.i("SUP", "LOGGED");
         }else{
             Log.i("SUP", "NOT LOGGED");

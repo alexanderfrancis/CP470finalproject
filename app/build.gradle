@@ -5,6 +5,7 @@ android {
     compileSdkVersion 28
 
 
+
     defaultConfig {
         applicationId "com.example.netflixmatchmaker"
         minSdkVersion 24
@@ -46,7 +47,8 @@ dependencies {
     // Import the BoM for the Firebase platform
 
     // Also declare the dependency for the Google Play services library and specify its version
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-auth:20.0.1'
+//    implementation 'com.google.android.gms:play-services-identity:17.0.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
