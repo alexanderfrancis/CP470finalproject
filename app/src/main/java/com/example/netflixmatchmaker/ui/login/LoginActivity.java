@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 9001;
-
+    Button emailSignIn;
     private String web_client = "29935103662-9gd9uqt1jajc525jlsm8hgofr7gr18tu.apps.googleusercontent.com";
 
     private LoginViewModel loginViewModel;
@@ -93,8 +93,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        emailSignIn= findViewById(R.id.emailSignIn);
+        emailSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent next = new Intent(getApplicationContext(),ExploreActivity.class);
 
+                startActivity(next);
+            }
+        });
     }
+
 
     @Override
     public void onStart() {

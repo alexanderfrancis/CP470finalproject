@@ -49,8 +49,12 @@ dependencies {
     // Also declare the dependency for the Google Play services library and specify its version
     implementation 'com.google.firebase:firebase-auth:20.0.1'
     implementation 'com.google.android.gms:play-services-identity:17.0.0'
-
+    implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
+    implementation "com.google.android.material:material:1.0.0"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:design:28.0.2'
+    implementation 'com.android.support:support-v4:28.0.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }

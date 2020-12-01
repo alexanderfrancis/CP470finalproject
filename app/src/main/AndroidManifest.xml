@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".ExploreActivity"
-            android:label="@string/title_activity_explore"></activity>
+            android:label="@string/title_activity_explore" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" />

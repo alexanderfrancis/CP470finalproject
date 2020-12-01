@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/cuddlebug_app_background"
+    android:layout_height="200dp"
+    android:gravity="bottom">
+
+</LinearLayout>
