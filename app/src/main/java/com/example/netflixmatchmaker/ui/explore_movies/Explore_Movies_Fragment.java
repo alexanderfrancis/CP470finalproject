@@ -127,7 +127,7 @@ public class Explore_Movies_Fragment extends Fragment {
         List<ItemModel> items = new ArrayList<>();
 
         items.add(new ItemModel("https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-                "Inception", "2010", "9.5"));
+                "Inception", "2010", "8.8/10"));
 
         return items;
     }
