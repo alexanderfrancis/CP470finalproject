@@ -41,24 +41,24 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
 
     class ViewHolder extends RecyclerView.ViewHolder{
         ImageView image;
-        TextView nama, usia, kota;
+        TextView title, year, rating;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.item_image);
-            nama = itemView.findViewById(R.id.item_name);
-            usia = itemView.findViewById(R.id.item_age);
-            kota = itemView.findViewById(R.id.item_city);
+            title = itemView.findViewById(R.id.item_name);
+            year = itemView.findViewById(R.id.item_age);
+            rating = itemView.findViewById(R.id.item_city);
         }
 
         void setData(ItemModel data) {
             Picasso.get()
-                    .load(data.getImage())
+                    .load(data.getPoster())
                     .fit()
                     .centerCrop()
                     .into(image);
-            nama.setText(data.getNama());
-            usia.setText(data.getUsia());
-            kota.setText(data.getKota());
+            title.setText(data.getTitle());
+            year.setText(data.getYear());
+            rating.setText(data.getRating());
         }
     }
 
