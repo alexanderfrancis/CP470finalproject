@@ -116,27 +116,19 @@ public class Explore_Movies_Fragment extends Fragment {
 
     private void paginate() {
         List<ItemModel> old = adapter.getItems();
-        List<ItemModel> baru = new ArrayList<>(addList());
-        CardStackCallback callback = new CardStackCallback(old, baru);
-        DiffUtil.DiffResult hasil = DiffUtil.calculateDiff(callback);
-        adapter.setItems(baru);
-        hasil.dispatchUpdatesTo(adapter);
+        List<ItemModel> next = new ArrayList<>(addList());
+        CardStackCallback callback = new CardStackCallback(old, next);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+        adapter.setItems(next);
+        result.dispatchUpdatesTo(adapter);
     }
 
     private List<ItemModel> addList() {
         List<ItemModel> items = new ArrayList<>();
-        //items.add(new ItemModel(R.drawable.sample1, "Interstellar", "24", "Jember"));
+
         items.add(new ItemModel("https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
                 "Inception", "2010", "9.5"));
-        //items.add(new ItemModel(R.drawable.sample3, "Dunkirk", "27", "Jonggol"));
-        //items.add(new ItemModel(R.drawable.sample4, "Tenet", "19", "Bandung"));
-//        items.add(new ItemModel(R.drawable.sample5, "Marmut", "25", "Hutan"));
 
-        //items.add(new ItemModel(R.drawable.sample1, "Markonah", "24", "Jember"));
-        //items.add(new ItemModel(R.drawable.sample2, "Marpuah", "20", "Malang"));
-        //items.add(new ItemModel(R.drawable.sample3, "Sukijah", "27", "Jonggol"));
-        //items.add(new ItemModel(R.drawable.sample4, "Markobar", "19", "Bandung"));
-//        items.add(new ItemModel(R.drawable.sample5, "Marmut", "25", "Hutan"));
         return items;
     }
 
