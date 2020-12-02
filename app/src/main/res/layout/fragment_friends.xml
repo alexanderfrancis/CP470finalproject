@@ -1,48 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/FriendsList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:id="@+id/FriendsList"
+    android:orientation="vertical"
     tools:context=".Friends">
 
     <!-- TODO: Update blank fragment layout -->
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Friend List"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content">
 
-        android:orientation="horizontal"
-        android:padding="12dp"
-        android:gravity="center_vertical">
+        <EditText
+            android:id="@+id/addfriend"
+            android:layout_width="243dp"
+            android:layout_height="50dp"
+            android:hint="Enter friends email here" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:layout_centerInParent="true"
-            android:gravity="top|center_horizontal|center_vertical"
-            android:text="Friend List"
-
-
-            android:textColor="@color/black"
-            android:textSize="25dp"
-            android:textStyle="bold" />
-
-
-
+        <Button
+            android:id="@+id/addfriendbutton"
+            android:layout_width="114dp"
+            android:layout_height="wrap_content"
+            android:text="FIND" />
     </LinearLayout>
+
     <ListView
         android:id="@+id/friendsView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_width="match_parent"
+        android:layout_height="588dp"
+        android:layout_gravity="center|bottom" />
 
 
 
-
-</FrameLayout>
+</LinearLayout>
