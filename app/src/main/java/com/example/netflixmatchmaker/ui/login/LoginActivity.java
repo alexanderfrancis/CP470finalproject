@@ -1,11 +1,6 @@
 package com.example.netflixmatchmaker.ui.login;
 
-import android.app.Activity;
-
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,57 +8,44 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import android.view.View;
 
 import android.widget.Button;
 
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.netflixmatchmaker.ExploreActivity;
 import com.example.netflixmatchmaker.R;
 
-import com.google.android.gms.auth.api.Auth;
+import com.example.netflixmatchmaker.RegisterActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApi;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.api.Distribution;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
-import java.util.concurrent.TimeUnit;
-
 public class LoginActivity extends AppCompatActivity {
     //TEST
     SignInButton signInButton;
-    Button signOutButton;
-    TextView statusTextView;
     GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
+    private EditText mEmail, mPassword;
+    private Button emailSignInButton;
+    Button registerButton;
     private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 9001;
-    Button emailSignIn;
     private String web_client = "29935103662-9gd9uqt1jajc525jlsm8hgofr7gr18tu.apps.googleusercontent.com";
 
     private LoginViewModel loginViewModel;
@@ -77,13 +59,25 @@ public class LoginActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
+        mEmail = (EditText) findViewById(R.id.email);
+        mPassword = (EditText) findViewById(R.id.password);
+        emailSignInButton = (Button) findViewById((R.id.emailSignIn));
+
+
         mAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         signInButton = (SignInButton) findViewById(R.id.signInButton);
+        registerButton = (Button) findViewById(R.id.registerButton);
 
-        signOutButton = (Button) findViewById(R.id.signOutButton);
-//        signOutButton.setOnClickListener(this);
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,18 +87,41 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        emailSignIn= findViewById(R.id.emailSignIn);
-        emailSignIn.setOnClickListener(new View.OnClickListener() {
+        emailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent next = new Intent(getApplicationContext(),ExploreActivity.class);
+                String email = mEmail.getText().toString();
+                String pass = mPassword.getText().toString();
+                if (!email.equals("") && !pass.equals("")){
+                    mAuth.signInWithEmailAndPassword(email,pass)
 
-                startActivity(next);
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(LoginActivity.this, ExploreActivity.class);
+                                        startActivity(intent);
+
+
+                                    }
+                                    else {
+                                        Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG).show();
+
+                                    }
+
+                                }
+                            });
+
+                }else{
+                    Log.d("ACTIVITY_TAG", "empty login fields");
+                }
             }
         });
+
+
+
     }
-
-
     @Override
     public void onStart() {
         super.onStart();
@@ -112,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
+
 
     private void updateUI(FirebaseUser currentUser) {
         if (currentUser != null) {
@@ -125,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
 
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -170,6 +189,9 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
     }
+
+
 }
+
 
 
