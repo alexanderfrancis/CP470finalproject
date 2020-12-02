@@ -1,32 +1,31 @@
 package com.example.netflixmatchmaker;
 
 public class ItemModel {
-    private int image;
-    private String nama, usia, kota;
+    private String title, year, rating, poster;
 
     public ItemModel() {
     }
 
-    public ItemModel(int image, String nama, String usia, String kota) {
-        this.image = image;
-        this.nama = nama;
-        this.usia = usia;
-        this.kota = kota;
+    public ItemModel(String poster, String title, String year, String rating) {
+        this.poster = poster;
+        this.title = title;
+        this.year = year;
+        this.rating = rating;
     }
 
-    public int getImage() {
-        return image;
+    public String getPoster() {
+        return poster;
     }
 
-    public String getNama() {
-        return nama;
+    public String getTitle() {
+        return title;
     }
 
-    public String getUsia() {
-        return usia;
+    public String getYear() {
+        return year;
     }
 
-    public String getKota() {
-        return kota;
+    public String getRating() {
+        return rating;
     }
 }
