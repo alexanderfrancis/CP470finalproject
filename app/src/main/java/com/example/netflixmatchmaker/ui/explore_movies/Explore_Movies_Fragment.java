@@ -1,5 +1,6 @@
 package com.example.netflixmatchmaker.ui.explore_movies;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,18 @@ import com.yuyakaido.android.cardstackview.Direction;
 import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeableMethod;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,16 +50,19 @@ public class Explore_Movies_Fragment extends Fragment {
     private static final String TAG = Explore_Movies_Fragment.class.getSimpleName();
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
+    private ArrayList<ItemModel> movies = new ArrayList();
+    private CardStackView cardStackView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_explore_movies, container, false);
+        callAPI();
         init(root);
         return root;
     }
 
     private void init(View root) {
-        CardStackView cardStackView = root.findViewById(R.id.card_stack_view);
+        cardStackView = root.findViewById(R.id.card_stack_view);
         manager = new CardStackLayoutManager(getContext(), new CardStackListener() {
             @Override
             public void onCardDragging(Direction direction, float ratio) {
@@ -108,7 +124,7 @@ public class Explore_Movies_Fragment extends Fragment {
         manager.setCanScrollHorizontal(true);
         manager.setSwipeableMethod(SwipeableMethod.Manual);
         manager.setOverlayInterpolator(new LinearInterpolator());
-        adapter = new CardStackAdapter(addList());
+        adapter = new CardStackAdapter(movies);
         cardStackView.setLayoutManager(manager);
         cardStackView.setAdapter(adapter);
         cardStackView.setItemAnimator(new DefaultItemAnimator());
@@ -116,20 +132,61 @@ public class Explore_Movies_Fragment extends Fragment {
 
     private void paginate() {
         List<ItemModel> old = adapter.getItems();
-        List<ItemModel> next = new ArrayList<>(addList());
+        List<ItemModel> next = new ArrayList<>(movies);
         CardStackCallback callback = new CardStackCallback(old, next);
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         adapter.setItems(next);
         result.dispatchUpdatesTo(adapter);
     }
 
-    private List<ItemModel> addList() {
-        List<ItemModel> items = new ArrayList<>();
+    private void callAPI() {
+        String URL = "https://cuddlebug-api.herokuapp.com/movie";
+        new AsycnGet().execute(URL);
+    }
 
-        items.add(new ItemModel("https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-                "Inception", "2010", "8.8/10"));
+    public class AsycnGet extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... params) {
+            try {
+                URL url = new URL(params[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
-        return items;
+                String line;
+                StringBuilder builder = new StringBuilder("");
+
+                while ((line = reader.readLine()) != null)
+                    builder.append(line);
+
+                return builder.toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+                return "";
+        }
+        protected void onPostExecute(String s) {
+            if (s != null && s != "") {
+                try {
+
+                    JSONObject o = new JSONObject(s);
+                    JSONArray a = o.getJSONArray("data");
+
+                    for (int i = 0; i < a.length(); i++) {
+                        JSONObject obj =  a.getJSONObject(i);
+                        ItemModel item = new ItemModel(obj.getString("Poster"), obj.getString("Title"), obj.getString("Year"), "8.8" );
+
+                        movies.add(item);
+                    }
+                    adapter = new CardStackAdapter(movies);
+                    cardStackView.setAdapter(adapter);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
     }
 
 }
