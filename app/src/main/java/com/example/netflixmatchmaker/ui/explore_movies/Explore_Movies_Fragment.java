@@ -42,6 +42,7 @@ public class Explore_Movies_Fragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_explore_movies, container, false);
         init(root);
+        manager.setCanScrollVertical(false);
         return root;
     }
 
