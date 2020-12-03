@@ -58,6 +58,7 @@ public class Explore_Movies_Fragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_explore_movies, container, false);
         callAPI();
         init(root);
+        manager.setCanScrollVertical(false);
         return root;
     }
 
