@@ -2,7 +2,6 @@ package com.example.netflixmatchmaker.ui.settings;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,12 +24,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.netflixmatchmaker.ExploreActivity;
 import com.example.netflixmatchmaker.Friends;
-import com.example.netflixmatchmaker.MainActivity;
 import com.example.netflixmatchmaker.R;
 import com.example.netflixmatchmaker.ui.login.LoginActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -58,6 +53,7 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
                              ViewGroup container, Bundle savedInstanceState) {
 
         TextView displayName;
+        TextView userEmail;
 
         notificationsViewModel =
                 ViewModelProviders.of(this).get(Settings_ViewModel.class);
@@ -74,8 +70,10 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Log.i("BNSDFNKLA", "BLAH");
         if(user!=null){
-//            displayName = (TextView) getView().findViewById(R.id.displayName);
-//            displayName.setText("Display Name: " + user);
+            displayName = root.findViewById(R.id.userName);
+            userEmail = root.findViewById(R.id.userEmail);
+            displayName.setText("Display Name: " + user.getDisplayName());
+            userEmail.setText("eMail: " + user.getEmail());
             Log.i("SUP", "LOGGED");
         }else{
             Log.i("SUP", "NOT LOGGED");
