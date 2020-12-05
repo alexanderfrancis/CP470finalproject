@@ -74,13 +74,13 @@ public class Explore_Movies_Fragment extends Fragment {
             public void onCardSwiped(Direction direction) {
                 Log.d(TAG, "onCardSwiped: p=" + manager.getTopPosition() + " d=" + direction);
                 if (direction == Direction.Right){
-                    Toast.makeText(getContext(), "Direction Right", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Liked", Toast.LENGTH_SHORT).show();
                 }
                 if (direction == Direction.Top){
                     Toast.makeText(getContext(), "Direction Top", Toast.LENGTH_SHORT).show();
                 }
                 if (direction == Direction.Left){
-                    Toast.makeText(getContext(), "Direction Left", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Disliked", Toast.LENGTH_SHORT).show();
                 }
                 if (direction == Direction.Bottom){
                     Toast.makeText(getContext(), "Direction Bottom", Toast.LENGTH_SHORT).show();
@@ -106,13 +106,13 @@ public class Explore_Movies_Fragment extends Fragment {
             @Override
             public void onCardAppeared(View view, int position) {
                 TextView tv = view.findViewById(R.id.item_name);
-                Log.d(TAG, "onCardAppeared: " + position + ", nama: " + tv.getText());
+                Log.d(TAG, "onCardAppeared: " + position + ", name: " + tv.getText());
             }
 
             @Override
             public void onCardDisappeared(View view, int position) {
                 TextView tv = view.findViewById(R.id.item_name);
-                Log.d(TAG, "onCardAppeared: " + position + ", nama: " + tv.getText());
+                Log.d(TAG, "onCardAppeared: " + position + ", name: " + tv.getText());
             }
         });
         manager.setStackFrom(StackFrom.None);
