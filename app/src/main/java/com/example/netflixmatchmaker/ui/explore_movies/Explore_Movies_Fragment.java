@@ -36,8 +36,10 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -52,6 +54,7 @@ public class Explore_Movies_Fragment extends Fragment {
     private CardStackAdapter adapter;
     private ArrayList<ItemModel> movies = new ArrayList();
     private CardStackView cardStackView;
+    int top_position;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +78,10 @@ public class Explore_Movies_Fragment extends Fragment {
                 Log.d(TAG, "onCardSwiped: p=" + manager.getTopPosition() + " d=" + direction);
                 if (direction == Direction.Right){
                     Toast.makeText(getContext(), "Liked", Toast.LENGTH_SHORT).show();
+                    top_position=manager.getTopPosition();
+
+                    String URL = "http://cuddlebug-api.herokuapp.com/liked/5fbf09028d2518d968fab249";
+                    new AsyncPost().execute(URL);
                 }
                 if (direction == Direction.Top){
                     Toast.makeText(getContext(), "Direction Top", Toast.LENGTH_SHORT).show();
@@ -175,7 +182,7 @@ public class Explore_Movies_Fragment extends Fragment {
 
                     for (int i = 0; i < a.length(); i++) {
                         JSONObject obj =  a.getJSONObject(i);
-                        ItemModel item = new ItemModel(obj.getString("Poster"), obj.getString("Title"), obj.getString("Year"), "8.8" );
+                        ItemModel item = new ItemModel(obj.getString("Poster"), obj.getString("Title"), obj.getString("Year"), "8.8",obj.getString("imdbID") );
 
                         movies.add(item);
                     }
@@ -187,6 +194,43 @@ public class Explore_Movies_Fragment extends Fragment {
                 }
 
             }
+        }
+    }
+    public class AsyncPost extends AsyncTask<String, Void, String>{
+        protected String doInBackground(String... params) {
+            try {
+                URL url = new URL(params[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                JSONObject dataToSend= new JSONObject();
+
+                ItemModel movie=movies.get(top_position);
+
+                dataToSend.put("imdbID","tt0839995");
+                dataToSend.put("userID","5fbf09028d2518d968fab249");
+
+                connection.setRequestMethod("POST");
+//                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+//                connection.setRequestProperty("Accept", "*/*");
+
+                connection.setDoOutput(true);
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+                writer.write(dataToSend.toString());
+                writer.close();
+
+                connection.connect();
+
+                // Response: 400
+                Log.e("Response", connection.getResponseMessage() + "");
+
+            } catch (Exception e) {
+                Log.e(e.toString(), "Something with request");
+            }
+
+            return null;
+        }
+        protected void onPostExecute(String s) {
+
+
         }
     }
 

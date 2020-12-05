@@ -63,6 +63,10 @@ public class Friends extends Fragment {
 
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 
     private void callAPI() {
         String URL = "https://cuddlebug-api.herokuapp.com/user";

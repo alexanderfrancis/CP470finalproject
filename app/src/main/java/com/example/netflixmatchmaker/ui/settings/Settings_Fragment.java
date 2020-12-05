@@ -185,12 +185,14 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
                 startActivity(next_activity);
                 break;
 
-            case(R.id.friends_list):
+            case(R.id.add_friends):
 
                 fragment=new Friends();
                 closeDrawer(drawerLayout);
 
                 break;
+
+
         }
         fragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment)
                 .commit();
