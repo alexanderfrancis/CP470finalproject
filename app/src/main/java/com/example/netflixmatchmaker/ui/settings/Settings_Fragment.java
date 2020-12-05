@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,6 +43,7 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
     Friends friendslist;
     Settings_Fragment activity;
     FragmentManager fragmentManager;
+    private FirebaseAuth mAuth;
 
 
 
@@ -104,6 +106,8 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
             }
         });
 
+        mAuth = FirebaseAuth.getInstance();
+
 
         return root;
     }
@@ -123,7 +127,7 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
 
 
 
-    private static void logout(final Activity activity){
+    private void logout(final Activity activity){
         AlertDialog.Builder builder= new AlertDialog.Builder(activity);
 
         builder.setTitle("Logout");
@@ -133,8 +137,13 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                activity.finishAffinity();
-                System.exit(0);
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                mAuth.getInstance().signOut();
+                Toast.makeText(getActivity().getApplicationContext(), "Logged Out", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+
+
             }
         });
 
