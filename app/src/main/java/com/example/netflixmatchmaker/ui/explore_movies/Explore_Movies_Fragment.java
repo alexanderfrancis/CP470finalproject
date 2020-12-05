@@ -23,6 +23,8 @@ import com.example.netflixmatchmaker.ItemModel;
 import com.example.netflixmatchmaker.R;
 import com.example.netflixmatchmaker.CardStackCallback;
 import com.example.netflixmatchmaker.ItemModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -80,7 +82,7 @@ public class Explore_Movies_Fragment extends Fragment {
                     Toast.makeText(getContext(), "Liked", Toast.LENGTH_SHORT).show();
                     top_position=manager.getTopPosition();
 
-                    String URL = "http://cuddlebug-api.herokuapp.com/liked/5fbf09028d2518d968fab249";
+                    String URL = "https://cuddlebug-api.herokuapp.com/liked";
                     new AsyncPost().execute(URL);
                 }
                 if (direction == Direction.Top){
@@ -171,7 +173,7 @@ public class Explore_Movies_Fragment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-                return "";
+            return "";
         }
         protected void onPostExecute(String s) {
             if (s != null && s != "") {
@@ -198,35 +200,51 @@ public class Explore_Movies_Fragment extends Fragment {
     }
     public class AsyncPost extends AsyncTask<String, Void, String>{
         protected String doInBackground(String... params) {
+            HttpURLConnection connection;
             try {
-                URL url = new URL(params[0]);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                JSONObject dataToSend= new JSONObject();
+                //Open a new URL connection
+                connection = (HttpURLConnection) new URL(params[0])
+                        .openConnection();
 
-                ItemModel movie=movies.get(top_position);
-
-                dataToSend.put("imdbID","tt0839995");
-                dataToSend.put("userID","5fbf09028d2518d968fab249");
-
+                //Defines a HTTP request type
                 connection.setRequestMethod("POST");
-//                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-//                connection.setRequestProperty("Accept", "*/*");
 
-                connection.setDoOutput(true);
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-                writer.write(dataToSend.toString());
-                writer.close();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String userId = user.getUid();
 
-                connection.connect();
+                int arrayIndex = manager.getTopPosition();
+                ItemModel movie = movies.get(arrayIndex - 1);
 
-                // Response: 400
-                Log.e("Response", connection.getResponseMessage() + "");
+                String imdbID = movie.getImdbId();
+                Log.d("test", String.valueOf(movie));
 
-            } catch (Exception e) {
-                Log.e(e.toString(), "Something with request");
+                //Sets headers: Content-Type, Authorization
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Accept", "application/json");
+
+                //Add POST data in JSON format
+                JSONObject jsonParam = new JSONObject();
+                try {
+                    jsonParam.put("imdbID", imdbID);
+                    jsonParam.put("userId", userId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Log.d("test", jsonParam.toString());
+                //Create a writer object and make the request
+                OutputStreamWriter outputStream = new OutputStreamWriter(connection.getOutputStream());
+                outputStream.write(jsonParam.toString());
+                outputStream.flush();
+                outputStream.close();
+
+                //Get the Response code for the request
+                Log.d("Response", connection.getResponseMessage() + "");
+                return "";
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            return null;
+            return "";
         }
         protected void onPostExecute(String s) {
 
