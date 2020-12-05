@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout_frag"
     android:fitsSystemWindows="true"
+
     tools:openDrawer="start"
     tools:context=".ui.settings.Settings_Fragment"
     >
@@ -28,11 +29,6 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-
-
-
-
-
     <TextView
         android:id="@+id/text_settings"
         android:layout_width="match_parent"
@@ -46,6 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/userName"
@@ -82,6 +79,7 @@
         android:layout_height="match_parent"
         android:id="@+id/navigation"
         app:menu="@menu/drawer_menu"
+
         app:headerLayout="@layout/header"
         android:layout_gravity="start"
         />

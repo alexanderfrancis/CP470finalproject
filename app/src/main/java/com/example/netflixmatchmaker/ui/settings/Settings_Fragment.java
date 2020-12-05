@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -80,8 +81,10 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
         }
 //        mDrawerToggle= new ActionBarDrawerToggle(getActivity(),drawerLayout,0 ,0);
 //        mDrawerToggle.syncState();
+
         drawerLayout= root.findViewById(R.id.drawer_layout_frag);
         navigationView= root.findViewById(R.id.navigation);
+
 
         friendslist=new Friends();
         activity=new Settings_Fragment();
@@ -98,6 +101,8 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
         openMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                drawerLayout.bringToFront();
+                drawerLayout.setScrimColor(Color.TRANSPARENT);
 
                 openDrawer(drawerLayout);
 

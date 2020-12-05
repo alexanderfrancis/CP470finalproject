@@ -3,7 +3,7 @@ package com.example.netflixmatchmaker;
 public class ItemModel {
     private String title, year, rating, poster;
 
-    public ItemModel() {
+    public ItemModel(String name, String email, String uid) {
     }
 
     public ItemModel(String poster, String title, String year, String rating) {
