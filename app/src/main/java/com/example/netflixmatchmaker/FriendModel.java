@@ -3,13 +3,11 @@ package com.example.netflixmatchmaker;
 public class FriendModel {
     private String name, email, uid;
 
-    public FriendModel(String name, String email, String uid) {
-    }
 
-    public FriendModel(String name, String title, String year, String rating) {
+    public FriendModel(String name, String email, String uid) {
         this.name = name;
         this.email = email;
-        this.uid = year;
+        this.uid = uid;
 
     }
 
