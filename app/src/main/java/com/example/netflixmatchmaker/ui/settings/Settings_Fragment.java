@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.netflixmatchmaker.ExploreActivity;
 import com.example.netflixmatchmaker.Friends;
 import com.example.netflixmatchmaker.R;
 import com.example.netflixmatchmaker.ui.login.LoginActivity;
@@ -73,8 +74,8 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
         if(user!=null){
             displayName = root.findViewById(R.id.userName);
             userEmail = root.findViewById(R.id.userEmail);
-            displayName.setText("Display Name: " + user.getDisplayName());
-            userEmail.setText("eMail: " + user.getEmail());
+            displayName.setText("Display Name:    " + user.getDisplayName());
+            userEmail.setText("eMail:                   " + user.getEmail());
             Log.i("SUP", "LOGGED");
         }else{
             Log.i("SUP", "NOT LOGGED");
@@ -180,8 +181,8 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
 
             case (R.id.nav_home):
 
-//                Intent next_activity = new Intent(getActivity(), LoginActivity.class);
-//                startActivity(next_activity);
+                Intent next_activity = new Intent(getActivity(), ExploreActivity.class);
+                startActivity(next_activity);
                 break;
 
             case(R.id.friends_list):
