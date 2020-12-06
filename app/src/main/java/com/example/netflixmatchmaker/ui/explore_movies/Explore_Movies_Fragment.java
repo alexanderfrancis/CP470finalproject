@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,13 +59,18 @@ public class Explore_Movies_Fragment extends Fragment {
     private ArrayList<ItemModel> movies = new ArrayList();
     private ArrayList<ItemModel> likedMovies = new ArrayList();
     private CardStackView cardStackView;
+    ProgressBar progressBar;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_explore_movies, container, false);
+        progressBar = root.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
         callAPI();
         init(root);
         manager.setCanScrollVertical(false);
+
         return root;
     }
 
@@ -158,7 +164,11 @@ public class Explore_Movies_Fragment extends Fragment {
 
         String MOVIE_URL = "https://cuddlebug-api.herokuapp.com/movie";
         new AsycnGet().execute(MOVIE_URL);
+    }
 
+    protected void onProgressUpdate(Integer... values) {
+        Log.i ("values",  values[0] +"-------------------------------") ;
+        progressBar.setProgress(values[0]);
     }
 
     public class GetLikedMoviesQuery extends AsyncTask<String, Void, String> {
@@ -182,6 +192,7 @@ public class Explore_Movies_Fragment extends Fragment {
             }
             return "";
         }
+
         protected void onPostExecute(String s) {
             if (s != null && s != "") {
                 try {
@@ -199,6 +210,7 @@ public class Explore_Movies_Fragment extends Fragment {
                     }
 
                     Log.d("test", likedMovies.toString());
+                    progressBar.setProgress(50);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -219,6 +231,8 @@ public class Explore_Movies_Fragment extends Fragment {
                 while ((line = reader.readLine()) != null)
                     builder.append(line);
 
+                progressBar.setProgress(100);
+
                 return builder.toString();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -227,6 +241,7 @@ public class Explore_Movies_Fragment extends Fragment {
             }
             return "";
         }
+
         protected void onPostExecute(String s) {
             if (s != null && s != "") {
                 try {
@@ -258,6 +273,7 @@ public class Explore_Movies_Fragment extends Fragment {
                     // Update CardStack with new data
                     adapter = new CardStackAdapter(movies);
                     cardStackView.setAdapter(adapter);
+                    progressBar.setVisibility(View.INVISIBLE);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -308,14 +324,15 @@ public class Explore_Movies_Fragment extends Fragment {
 
                 //Get the Response code for the request
                 Log.d("Response", connection.getResponseMessage() + "");
+
                 return "";
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return "";
         }
-        protected void onPostExecute(String s) {
 
+        protected void onPostExecute(String s) {
 
         }
     }
