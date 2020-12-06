@@ -47,6 +47,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Explore_Movies_Fragment extends Fragment {
@@ -55,8 +56,8 @@ public class Explore_Movies_Fragment extends Fragment {
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
     private ArrayList<ItemModel> movies = new ArrayList();
+    private ArrayList<ItemModel> likedMovies = new ArrayList();
     private CardStackView cardStackView;
-    int top_position;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -80,7 +81,6 @@ public class Explore_Movies_Fragment extends Fragment {
                 Log.d(TAG, "onCardSwiped: p=" + manager.getTopPosition() + " d=" + direction);
                 if (direction == Direction.Right){
                     Toast.makeText(getContext(), "Liked", Toast.LENGTH_SHORT).show();
-                    top_position=manager.getTopPosition();
 
                     String URL = "https://cuddlebug-api.herokuapp.com/liked";
                     new AsyncPost().execute(URL);
@@ -150,11 +150,18 @@ public class Explore_Movies_Fragment extends Fragment {
     }
 
     private void callAPI() {
-        String URL = "https://cuddlebug-api.herokuapp.com/movie";
-        new AsycnGet().execute(URL);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = user.getUid();
+
+        String LIKED_URL ="https://cuddlebug-api.herokuapp.com/liked/" + userId;
+        new GetLikedMoviesQuery().execute(LIKED_URL);
+
+        String MOVIE_URL = "https://cuddlebug-api.herokuapp.com/movie";
+        new AsycnGet().execute(MOVIE_URL);
+
     }
 
-    public class AsycnGet extends AsyncTask<String, Void, String> {
+    public class GetLikedMoviesQuery extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... params) {
             try {
                 URL url = new URL(params[0]);
@@ -186,18 +193,79 @@ public class Explore_Movies_Fragment extends Fragment {
                         JSONObject obj =  a.getJSONObject(i);
                         ItemModel item = new ItemModel(obj.getString("Poster"), obj.getString("Title"), obj.getString("Year"), "8.8",obj.getString("imdbID") );
 
-                        movies.add(item);
+                        likedMovies.add(item);
+                        Log.d("test", item.getTitle());
+
                     }
+
+                    Log.d("test", likedMovies.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public class AsycnGet extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... params) {
+            try {
+                URL url = new URL(params[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                String line;
+                StringBuilder builder = new StringBuilder("");
+
+                while ((line = reader.readLine()) != null)
+                    builder.append(line);
+
+                return builder.toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+        protected void onPostExecute(String s) {
+            if (s != null && s != "") {
+                try {
+
+                    JSONObject o = new JSONObject(s);
+                    JSONArray a = o.getJSONArray("data");
+
+                    // Iterates through all of the movies and doesn't display already liked movies
+                    for (int i = 0; i < a.length(); i++) {
+                        JSONObject obj = a.getJSONObject(i);
+                        ItemModel item = new ItemModel(obj.getString("Poster"), obj.getString("Title"), obj.getString("Year"), "8.8", obj.getString("imdbID"));
+
+                        int j = 0;
+                        boolean isFound = false;
+                        while (j < likedMovies.size() && !isFound) {
+                            if (likedMovies.get(j).getImdbId().equals(item.getImdbId())) {
+                                isFound = true;
+                            }
+                            j++;
+                        }
+                        // Only adds moves to list if it hasn't been liked prior
+                        if(!isFound)
+                            movies.add(item);
+                    }
+
+                    // Randomize movies so it doesn't come in same order each time
+                    Collections.shuffle(movies);
+
+                    // Update CardStack with new data
                     adapter = new CardStackAdapter(movies);
                     cardStackView.setAdapter(adapter);
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         }
     }
+
     public class AsyncPost extends AsyncTask<String, Void, String>{
         protected String doInBackground(String... params) {
             HttpURLConnection connection;
@@ -216,7 +284,6 @@ public class Explore_Movies_Fragment extends Fragment {
                 ItemModel movie = movies.get(arrayIndex - 1);
 
                 String imdbID = movie.getImdbId();
-                Log.d("test", String.valueOf(movie));
 
                 //Sets headers: Content-Type, Authorization
                 connection.setRequestProperty("Content-Type", "application/json");
@@ -232,6 +299,7 @@ public class Explore_Movies_Fragment extends Fragment {
                 }
 
                 Log.d("test", jsonParam.toString());
+
                 //Create a writer object and make the request
                 OutputStreamWriter outputStream = new OutputStreamWriter(connection.getOutputStream());
                 outputStream.write(jsonParam.toString());
