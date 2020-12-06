@@ -323,6 +323,7 @@ public class Explore_Movies_Fragment extends Fragment {
                 outputStream.close();
 
                 //Get the Response code for the request
+                Log.d("UID",userId);
                 Log.d("Response", connection.getResponseMessage() + "");
 
                 return "";
@@ -336,5 +337,6 @@ public class Explore_Movies_Fragment extends Fragment {
 
         }
     }
+
 
 }
