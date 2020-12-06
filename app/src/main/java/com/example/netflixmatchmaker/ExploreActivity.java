@@ -3,6 +3,7 @@ package com.example.netflixmatchmaker;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -44,6 +45,16 @@ public class ExploreActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        Intent intent = getIntent();
+        String message = intent.getStringExtra("message");
+        Log.i("ExploreActivity.java","message");
+
+        Bundle bundle=new Bundle();
+        bundle.putString("message", "From Activity");
+        //set Fragmentclass Arguments
+        MoviesFriendFragment fragobj=new MoviesFriendFragment();
+        fragobj.setArguments(bundle);
 
 
 //        drawerLayout= findViewById(R.id.drawer_layout);

@@ -1,14 +1,17 @@
 package com.example.netflixmatchmaker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -56,6 +59,35 @@ public class AddedFriendsFragment extends Fragment {
 
         friends_list=root.findViewById(R.id.friendsListView);
         callAPI();
+        friends_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+                MoviesFriendFragment fragment= new MoviesFriendFragment();
+
+                FriendModel friend= friendsAdapter.getItem(position);
+
+
+                Bundle sendData= new Bundle();
+                sendData.putString("friendName",friend.getName());
+                sendData.putString("friendID",friend.getUid());
+                fragment.setArguments(sendData);
+
+
+                fragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                        .commit();
+
+//                Intent intent = new Intent(getActivity().getBaseContext(),
+//                        ExploreActivity.class);
+//                intent.putExtra("message", "hello");
+//                getActivity().startActivity(intent);
+//                LocationList.remove(item);
+//                adapter = new MyAdapter(getActivity(),LocationList);
+//                list.setAdapter(adapter);
+            }
+
+        });
 
         return root;
     }
