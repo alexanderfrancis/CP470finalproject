@@ -6,24 +6,39 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_movie" />
+
     <TextView
         android:id="@+id/movie_text"
-        android:layout_width="wrap_content"
+        android:layout_width="104dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Name Text" />
 
+
+
+
+
+    <LinearLayout
+
+        android:layout_width="40dp"
+        android:layout_height="wrap_content">
+
+
+    </LinearLayout>
+
     <TextView
+
         android:id="@+id/year_text"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="New Text" />
-
 
 
 </LinearLayout>

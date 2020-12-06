@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,7 @@ public class AddedFriendsFragment extends Fragment {
                 MoviesFriendFragment fragment= new MoviesFriendFragment();
 
                 FriendModel friend= friendsAdapter.getItem(position);
+                Log.i("In ADDEDFRIENDS", "Friend:" +friend.getName());
 
 
                 Bundle sendData= new Bundle();

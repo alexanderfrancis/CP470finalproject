@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class MoviesFriendFragment extends Fragment {
     ListView movie_list;
     MovieAdapter movieAdapter;
     ItemModel add_friend;
+    String friendId;
 
     public MoviesFriendFragment() {
         // Required empty public constructor
@@ -45,6 +47,10 @@ public class MoviesFriendFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments()!=null){
+            String friendName=getArguments().getString("friendName");
+            friendId=getArguments().getString("friendID");
+        }
 
 
     }
@@ -54,7 +60,8 @@ public class MoviesFriendFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         String friendName=getArguments().getString("friendName");
-        String friendId=getArguments().getString("friendId");
+
+        Log.i("IN MOVIESFRIENDSFRAGMENT","stuff here :"+friendId);
 
 
         View root= inflater.inflate(R.layout.fragment_movies_friend, container, false);
@@ -69,6 +76,7 @@ public class MoviesFriendFragment extends Fragment {
         String userId = user.getUid();
 
         String friends_URL = "https://cuddlebug-api.herokuapp.com/liked/?user1=" + userId + "&user2="+friendId;
+        Log.i("IN MOVIESFRIENDSFRAGMENT","URL:"+friends_URL);
 
         new AsyncGetCommonMovies().execute(friends_URL);
     }
