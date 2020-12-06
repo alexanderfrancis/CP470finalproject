@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.netflixmatchmaker.AddedFriendsFragment;
 import com.example.netflixmatchmaker.ExploreActivity;
 import com.example.netflixmatchmaker.Friends;
 import com.example.netflixmatchmaker.R;
@@ -190,6 +191,11 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
                 fragment=new Friends();
                 closeDrawer(drawerLayout);
 
+                break;
+            case (R.id.friends_list):
+                drawerLayout.bringToFront();
+                fragment=new AddedFriendsFragment();
+                closeDrawer(drawerLayout);
                 break;
 
 

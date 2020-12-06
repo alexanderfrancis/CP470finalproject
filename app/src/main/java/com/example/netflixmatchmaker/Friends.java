@@ -1,24 +1,34 @@
 package com.example.netflixmatchmaker;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,10 +37,12 @@ import java.util.List;
 
 
 public class Friends extends Fragment {
+    FragmentManager fragmentManager;
 
     private ArrayList<FriendModel> Users = new ArrayList();
     ListView user_list;
     UserAdapter userAdapter;
+    FriendModel add_friend;
     public Friends() {
         // Required empty public constructor
     }
@@ -54,6 +66,26 @@ public class Friends extends Fragment {
         callAPI();
 //
 //        user_list.setAdapter(userAdapter);
+
+
+
+        user_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                callAddFriendAPI();
+
+                add_friend= userAdapter.getItem(position);
+                userAdapter.remove(userAdapter.getItem(position));
+//                LocationList.remove(item);
+//                adapter = new MyAdapter(getActivity(),LocationList);
+//                list.setAdapter(adapter);
+            }
+
+        });
+
+
+
         return root;
     }
 
@@ -71,6 +103,10 @@ public class Friends extends Fragment {
     private void callAPI() {
         String URL = "https://cuddlebug-api.herokuapp.com/user";
         new Friends.AsycnGet().execute(URL);
+    }
+    private void callAddFriendAPI(){
+        String URL ="https://cuddlebug-api.herokuapp.com/friend";
+        new AsyncPost().execute(URL);
     }
 
     public class AsycnGet extends AsyncTask<String, Void, String> {
@@ -149,6 +185,62 @@ public class Friends extends Fragment {
 
         }
 
+    }
+
+    public class AsyncPost extends AsyncTask<String, Void, String>{
+        protected String doInBackground(String... params) {
+            HttpURLConnection connection;
+            try {
+                //Open a new URL connection
+                connection = (HttpURLConnection) new URL(params[0])
+                        .openConnection();
+
+                //Defines a HTTP request type
+                connection.setRequestMethod("POST");
+
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String userId = user.getUid();
+                String friendId=add_friend.getUid();
+                String friendName=add_friend.getName();
+
+
+                //Sets headers: Content-Type, Authorization
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Accept", "application/json");
+
+                //Add POST data in JSON format
+                JSONObject jsonParam = new JSONObject();
+                try {
+
+                    jsonParam.put("friendId", friendId);
+                    jsonParam.put("friendName", friendName);
+                    jsonParam.put("userId", userId);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Log.d("test", jsonParam.toString());
+
+                //Create a writer object and make the request
+                OutputStreamWriter outputStream = new OutputStreamWriter(connection.getOutputStream());
+                outputStream.write(jsonParam.toString());
+                outputStream.flush();
+                outputStream.close();
+
+                //Get the Response code for the request
+                Log.d("UID",userId);
+                Log.d("Response", connection.getResponseMessage() + "");
+                return "";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+        protected void onPostExecute(String s) {
+
+
+        }
     }
 
 }
