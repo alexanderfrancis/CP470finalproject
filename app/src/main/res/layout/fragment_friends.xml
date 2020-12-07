@@ -16,7 +16,7 @@
         android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
         android:text="Add Friends"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="25dp"
         android:textStyle="bold" />
 
@@ -25,7 +25,8 @@
         android:id="@+id/friendsView"
         android:layout_width="match_parent"
         android:layout_height="588dp"
-        android:layout_gravity="center|bottom" />
+        android:layout_gravity="center|bottom"
+        android:textColor="@color/white"/>
 
 
 
