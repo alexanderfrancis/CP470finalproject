@@ -202,7 +202,7 @@ public class Explore_Movies_Fragment extends Fragment {
 
                     for (int i = 0; i < a.length(); i++) {
                         JSONObject obj =  a.getJSONObject(i);
-                        ItemModel item = new ItemModel(obj.getString("Poster"), obj.getString("Title"), obj.getString("Year"), "8.8",obj.getString("imdbID") );
+                        ItemModel item = new ItemModel(obj.getString("Poster"), obj.getString("Title"), obj.getString("Year"), "",obj.getString("imdbID") );
 
                         likedMovies.add(item);
                         Log.d("test", item.getTitle());

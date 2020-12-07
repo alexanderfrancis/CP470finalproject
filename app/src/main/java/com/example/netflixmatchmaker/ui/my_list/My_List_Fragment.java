@@ -70,8 +70,6 @@ public class My_List_Fragment extends Fragment {
         new AsycnGetLiked().execute(URL);
     }
 
-
-
     public class AsycnGetLiked extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... params) {
             try {

@@ -76,7 +76,7 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
             displayName = root.findViewById(R.id.userName);
             userEmail = root.findViewById(R.id.userEmail);
             displayName.setText("Display Name:    " + user.getDisplayName());
-            userEmail.setText("eMail:                   " + user.getEmail());
+            userEmail.setText("Email:                   " + user.getEmail());
             Log.i("SUP", "LOGGED");
         }else{
             Log.i("SUP", "NOT LOGGED");

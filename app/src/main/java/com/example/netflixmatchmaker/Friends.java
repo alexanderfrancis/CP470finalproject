@@ -104,6 +104,7 @@ public class Friends extends Fragment {
         String URL = "https://cuddlebug-api.herokuapp.com/user";
         new Friends.AsycnGet().execute(URL);
     }
+
     private void callAddFriendAPI(){
         String URL ="https://cuddlebug-api.herokuapp.com/friend";
         new AsyncPost().execute(URL);

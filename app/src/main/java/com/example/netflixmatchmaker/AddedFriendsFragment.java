@@ -162,13 +162,33 @@ public class AddedFriendsFragment extends Fragment {
                     JSONObject o = new JSONObject(s);
                     JSONArray a = o.getJSONArray("data");
 
+//                    for (int i = 0; i < a.length(); i++) {
+//                        JSONObject obj =  a.getJSONObject(i);
+//                        FriendModel item = new FriendModel(obj.getString("friendName"),null,obj.getString("friendId"));
+//
+//
+//                        Friends.add(item);
+//                    }
+
+                    // Iterates through all of the movies and doesn't display already liked movies
                     for (int i = 0; i < a.length(); i++) {
-                        JSONObject obj =  a.getJSONObject(i);
+                        JSONObject obj = a.getJSONObject(i);
                         FriendModel item = new FriendModel(obj.getString("friendName"),null,obj.getString("friendId"));
 
-
-                        Friends.add(item);
+                        int j = 0;
+                        boolean isFound = false;
+                        while (j < Friends.size() && !isFound) {
+                            String friend_uid = Friends.get(j).getUid();
+                            if (friend_uid.equals(item.getUid())) {
+                                isFound = true;
+                            }
+                            j++;
+                        }
+                        // Only adds moves to list if it hasn't been liked prior
+                        if(!isFound)
+                            Friends.add(item);
                     }
+
                     friendsAdapter = new FriendsAdapter(getActivity());
                     friends_list.setAdapter(friendsAdapter);
                     friendsAdapter.notifyDataSetChanged();
