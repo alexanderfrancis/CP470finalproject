@@ -180,12 +180,6 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
                 closeDrawer(drawerLayout);
                 break;
 
-            case (R.id.nav_home):
-
-                Intent next_activity = new Intent(getActivity(), ExploreActivity.class);
-                startActivity(next_activity);
-                break;
-
             case(R.id.add_friends):
 
                 fragment=new Friends();
