@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,13 +43,10 @@ import java.util.ArrayList;
 public class My_List_Fragment extends Fragment {
 
     private My_List_ViewModel homeViewModel;
-
+    private View result=null;
     private ArrayList<ItemModel> movies = new ArrayList();
     ListView movie_list;
-
-
     MovieAdapter movieAdapter;
-
     Boolean flag=false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -138,6 +137,54 @@ public class My_List_Fragment extends Fragment {
             }
         }
     }
+
+    public class MovieDetailsQuery extends AsyncTask<String, Void, String> {
+
+        protected String doInBackground(String... params) {
+            try {
+                URL url = new URL(params[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                String line;
+                StringBuilder builder = new StringBuilder("");
+
+                while ((line = reader.readLine()) != null)
+                    builder.append(line);
+
+                return builder.toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+
+        protected void onPostExecute(String s) {
+            if (s != null && s != "") {
+                try {
+
+                    JSONObject o = new JSONObject(s);
+
+                    String imdbRating = o.getString("imdbRating");
+                    String actors = o.getString("Actors");
+                    String runTime = o.getString("Runtime");
+                    String genre = o.getString("Genre");
+                    String plot = o.getString("Plot");
+//                    TextView plot_text =(TextView)result.findViewById(R.id.movie_text);
+//                    plot_text.setText(plot);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+
     private class MovieAdapter extends ArrayAdapter<ItemModel> {
         int position;
         public MovieAdapter(Context ctx){
@@ -156,7 +203,6 @@ public class My_List_Fragment extends Fragment {
 
         public View getView (int position, View convertView, ViewGroup parent){
             final LayoutInflater inflater= getActivity().getLayoutInflater();
-            View result=null;
 //            if (extended=true){
 //                result=inflater.inflate(R.layout.movie_list_extended,null);
 //
@@ -167,9 +213,12 @@ public class My_List_Fragment extends Fragment {
 //            }
 
 
+            // If the listView is selected and details not open, fetch the respective movie data
             if (flag==true && this.position==position){
                 result=inflater.inflate(R.layout.movie_list_extended,null);
 
+                String URL = "https://www.omdbapi.com/?apikey=a9dd353b&i=" + movies.get(position).getImdbId();
+                new MovieDetailsQuery().execute(URL);
             }
             else{
                 result=inflater.inflate(R.layout.movie_list,null);

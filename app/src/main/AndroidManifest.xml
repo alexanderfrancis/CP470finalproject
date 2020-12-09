@@ -11,7 +11,6 @@
         android:roundIcon="@drawable/thumbnail_large"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
         <activity
             android:name=".RegisterActivity"
             android:label="RegisterActivity" />
