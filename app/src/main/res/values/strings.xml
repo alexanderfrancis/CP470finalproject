@@ -31,6 +31,8 @@
     <string name="friends">Friends</string>
     <string name="common_movies">Movies in Common</string>
     <string name="loading">Generating Watchlist...</string>
+    <string name="instructions1"><b>Instructions:</b>\n \n<b>Explore Movies:</b>\nDrag or swipe the movie poster right to like and left to dislike. Movies are generated asynchronously\n \n<b>Settings:</b>\nClick on the three stripes above to logout or access friends functionality. On the add friends page, a list of friends appears where each can be clicked and added to your friend list.</string>
+    <string name="instructions2">\n\n<b>My List:</b>\nContains a list of the movies you\'ve liked previously by swiping right on posters in the Explore Movies section</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_register">REGISTER</string>
