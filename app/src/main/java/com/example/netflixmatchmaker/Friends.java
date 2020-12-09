@@ -64,8 +64,11 @@ public class Friends extends Fragment {
         user_list=root.findViewById(R.id.friendsView);
 //        userAdapter= new UserAdapter(getActivity());
         callAPI();
+
 //
 //        user_list.setAdapter(userAdapter);
+
+
 
 
 
@@ -76,7 +79,7 @@ public class Friends extends Fragment {
                 callAddFriendAPI();
 
                 add_friend= userAdapter.getItem(position);
-                userAdapter.remove(userAdapter.getItem(position));
+                Users.remove(position);
                 userAdapter.notifyDataSetChanged();
 //                LocationList.remove(item);
 //                adapter = new MyAdapter(getActivity(),LocationList);

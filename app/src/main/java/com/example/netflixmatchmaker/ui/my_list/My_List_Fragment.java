@@ -219,7 +219,7 @@ public class My_List_Fragment extends Fragment {
 
                 result=inflater.inflate(R.layout.movie_list_extended,null);
 
-                String URL = "https://www.omdbapi.com/?apikey=a9dd353b&i=" + movies.get(position).getImdbId();
+                String URL = "https://www.omdbapi.com/?apikey=a9dd353b&i=" + movies.get(position+1).getImdbId();
                 new MovieDetailsQuery().execute(URL);
                 TextView desc=result.findViewById(R.id.desc_text);
                 desc.setText(plot);

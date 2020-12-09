@@ -104,6 +104,7 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
             @Override
             public void onClick(View view) {
                 drawerLayout.bringToFront();
+
                 drawerLayout.setScrimColor(Color.TRANSPARENT);
 
                 openDrawer(drawerLayout);
@@ -182,7 +183,9 @@ public class Settings_Fragment extends Fragment implements NavigationView.OnNavi
 
             case(R.id.add_friends):
 
+                drawerLayout.bringToFront();
                 fragment=new Friends();
+
                 closeDrawer(drawerLayout);
 
                 break;

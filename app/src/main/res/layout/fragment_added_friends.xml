@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/FriendsList"
     android:layout_width="match_parent"
-    android:paddingTop="150dp"
+
     android:layout_height="match_parent"
+    android:background="@drawable/cuddlebug_blank_app_background"
 
     android:orientation="vertical"
     tools:context=".Friends">
+    <include layout="@layout/main_tool" />
 
 
 
@@ -16,7 +18,7 @@
         android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
         android:text="@string/friends"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="25dp"
         android:textStyle="bold" />
 

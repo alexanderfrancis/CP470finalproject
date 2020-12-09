@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/cuddlebug_blank_app_background"
     tools:context=".AddFriendsFragment">
+    <include layout="@layout/main_tool" />
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
