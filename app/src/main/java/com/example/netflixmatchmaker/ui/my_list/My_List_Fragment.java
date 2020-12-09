@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,7 +44,11 @@ public class My_List_Fragment extends Fragment {
 
     private ArrayList<ItemModel> movies = new ArrayList();
     ListView movie_list;
+
+
     MovieAdapter movieAdapter;
+
+    Boolean flag=false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -59,8 +64,25 @@ public class My_List_Fragment extends Fragment {
         });
         movie_list=root.findViewById(R.id.MovieView);
 //        userAdapter= new UserAdapter(getActivity());
+        movie_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (flag==false){
+                    flag=true;
+
+                }
+                else{
+                    flag=false;
+
+                }
+                movieAdapter.selectedItem(position);
+
+                movieAdapter.notifyDataSetChanged();
+            }
+        });
         callAPI();
         return root;
+
     }
 
     private void callAPI() {
@@ -117,7 +139,7 @@ public class My_List_Fragment extends Fragment {
         }
     }
     private class MovieAdapter extends ArrayAdapter<ItemModel> {
-
+        int position;
         public MovieAdapter(Context ctx){
             super(ctx,0);
         }
@@ -125,15 +147,34 @@ public class My_List_Fragment extends Fragment {
 
             return movies.size();
         }
+        public void selectedItem(int position){
+            this.position=position;
+        }
         public ItemModel getItem(int position){
             return movies.get(position);
         }
 
         public View getView (int position, View convertView, ViewGroup parent){
-            LayoutInflater inflater= getActivity().getLayoutInflater();
+            final LayoutInflater inflater= getActivity().getLayoutInflater();
             View result=null;
+//            if (extended=true){
+//                result=inflater.inflate(R.layout.movie_list_extended,null);
+//
+//
+//            }else{
+//                result=inflater.inflate(R.layout.movie_list,null);
+//
+//            }
 
-            result=inflater.inflate(R.layout.movie_list,null);
+
+            if (flag==true && this.position==position){
+                result=inflater.inflate(R.layout.movie_list_extended,null);
+
+            }
+            else{
+                result=inflater.inflate(R.layout.movie_list,null);
+            }
+
 
             TextView movie=(TextView)result.findViewById(R.id.movie_text);
             TextView year=(TextView)result.findViewById(R.id.year_text);

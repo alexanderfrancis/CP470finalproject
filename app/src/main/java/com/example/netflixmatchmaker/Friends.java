@@ -77,6 +77,7 @@ public class Friends extends Fragment {
 
                 add_friend= userAdapter.getItem(position);
                 userAdapter.remove(userAdapter.getItem(position));
+                userAdapter.notifyDataSetChanged();
 //                LocationList.remove(item);
 //                adapter = new MyAdapter(getActivity(),LocationList);
 //                list.setAdapter(adapter);
