@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
     private String web_client = "29935103662-9gd9uqt1jajc525jlsm8hgofr7gr18tu.apps.googleusercontent.com";
 
-    private LoginViewModel loginViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
