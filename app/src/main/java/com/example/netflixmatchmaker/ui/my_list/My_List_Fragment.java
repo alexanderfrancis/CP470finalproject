@@ -48,6 +48,7 @@ public class My_List_Fragment extends Fragment {
     ListView movie_list;
     MovieAdapter movieAdapter;
     Boolean flag=false;
+    String plot;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -171,7 +172,7 @@ public class My_List_Fragment extends Fragment {
                     String actors = o.getString("Actors");
                     String runTime = o.getString("Runtime");
                     String genre = o.getString("Genre");
-                    String plot = o.getString("Plot");
+                    plot = o.getString("Plot");
 //                    TextView plot_text =(TextView)result.findViewById(R.id.movie_text);
 //                    plot_text.setText(plot);
 
@@ -215,21 +216,29 @@ public class My_List_Fragment extends Fragment {
 
             // If the listView is selected and details not open, fetch the respective movie data
             if (flag==true && this.position==position){
+
                 result=inflater.inflate(R.layout.movie_list_extended,null);
 
                 String URL = "https://www.omdbapi.com/?apikey=a9dd353b&i=" + movies.get(position).getImdbId();
                 new MovieDetailsQuery().execute(URL);
+                TextView desc=result.findViewById(R.id.desc_text);
+                desc.setText(plot);
+
+
             }
             else{
                 result=inflater.inflate(R.layout.movie_list,null);
-            }
 
+
+            }
 
             TextView movie=(TextView)result.findViewById(R.id.movie_text);
             TextView year=(TextView)result.findViewById(R.id.year_text);
 
             movie.setText(getItem(position).getTitle());
             year.setText(getItem(position).getYear());
+
+
 
             return result;
 
