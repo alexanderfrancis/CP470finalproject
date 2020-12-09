@@ -79,7 +79,7 @@
         android:layout_width="147dp"
         android:layout_height="43dp"
         android:layout_centerInParent="true"
-        android:layout_marginTop="472dp"
+        android:layout_marginTop="400dp"
         android:layout_marginEnd="144dp"
         android:textAlignment="center"
         android:visibility="visible"
@@ -102,5 +102,22 @@
         app:layout_constraintStart_toStartOf="@+id/password"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="128dp"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:text="Created by:\nKeven Iskander, Carla Castaneda, Alexander Francis, Don Thenura Jayasinghe, Nicole Laslavic"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
