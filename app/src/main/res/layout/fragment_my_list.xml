@@ -16,7 +16,7 @@
         android:gravity="top|center_horizontal|center_vertical"
 
 
-        android:text="My List"
+        android:text="@string/title_my_list"
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold" />

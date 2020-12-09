@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">CuddleBug</string>
+    <string name="action_settings">Paramètres</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="next">Prochain</string>
+    <string name="previous">Dernier</string>
+
+
+    <string name="title_activity_login">Login</string>
+    <string name="name">Nom</string>
+    <string name="prompt_email">Compte</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="prompt_password2">Mot de passe confirmer</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Se Connecter</string>
+    <string name="welcome">Bienvenue!</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Mot de passe doit être > 5 caractères</string>
+    <string name="login_failed">Échec de la connexion</string>
+    <string name="title_activity_explore">Explore</string>
+    <string name="title_my_list">Mon liste</string>
+    <string name="title_explore_movies">Explorer des filmes</string>
+    <string name="title_settings">Options</string>
+    <string name="navigation_drawer_open">Ouvre navigation</string>
+    <string name="navigation_drawer_close">Ferme navigation</string>
+    <string name="display_name">Nom d\'utilisateur:</string>
+    <string name="email">eMail:</string>
+    <string name="user_settings">Options d\'utilisateur</string>
+    <string name="add_friends">Ajouter des amis</string>
+    <string name="friends">Mes amis</string>
+    <string name="common_movies">Filmes en commun</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_register">S\'inscrire</string>
+</resources>
