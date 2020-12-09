@@ -30,6 +30,7 @@
     <string name="add_friends">Ajouter des amis</string>
     <string name="friends">Mes amis</string>
     <string name="common_movies">Filmes en commun</string>
+    <string name="loading">Chargement en cours...</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_register">S\'inscrire</string>

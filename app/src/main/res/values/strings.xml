@@ -30,6 +30,7 @@
     <string name="add_friends">Add Friends</string>
     <string name="friends">Friends</string>
     <string name="common_movies">Movies in Common</string>
+    <string name="loading">Generating Watchlist...</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_register">REGISTER</string>
