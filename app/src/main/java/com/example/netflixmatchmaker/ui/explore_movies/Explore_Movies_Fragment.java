@@ -14,7 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-
+//CardStackAdapter library pulled from: https://github.com/yuyakaido/CardStackView and edited to fit this project
+//This is permitted under their license agreement https://opensource.org/licenses/Apache-2.0
 import com.example.netflixmatchmaker.CardStackAdapter;
 import com.example.netflixmatchmaker.ItemModel;
 import com.example.netflixmatchmaker.R;

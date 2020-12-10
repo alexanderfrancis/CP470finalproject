@@ -17,6 +17,10 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
 
     private List<ItemModel> items;
 
+
+    //CardStackAdapter library pulled from: https://github.com/yuyakaido/CardStackView and edited to fit this project
+    //This is permitted under their license agreement https://opensource.org/licenses/Apache-2.0
+
     public CardStackAdapter(List<ItemModel> items) {
         this.items = items;
     }
