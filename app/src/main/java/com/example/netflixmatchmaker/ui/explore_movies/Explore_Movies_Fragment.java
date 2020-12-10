@@ -11,19 +11,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DiffUtil;
 
 import com.example.netflixmatchmaker.CardStackAdapter;
 import com.example.netflixmatchmaker.ItemModel;
 import com.example.netflixmatchmaker.R;
-import com.example.netflixmatchmaker.CardStackCallback;
-import com.example.netflixmatchmaker.ItemModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
@@ -36,20 +30,16 @@ import com.yuyakaido.android.cardstackview.SwipeableMethod;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class Explore_Movies_Fragment extends Fragment {
 
@@ -101,10 +91,7 @@ public class Explore_Movies_Fragment extends Fragment {
                     Toast.makeText(getContext(), "Direction Bottom", Toast.LENGTH_SHORT).show();
                 }
 
-                // Paginating
-                if (manager.getTopPosition() == adapter.getItemCount() - 5){
-                    paginate();
-                }
+
 
             }
 
@@ -146,14 +133,7 @@ public class Explore_Movies_Fragment extends Fragment {
         cardStackView.setItemAnimator(new DefaultItemAnimator());
     }
 
-    private void paginate() {
-        List<ItemModel> old = adapter.getItems();
-        List<ItemModel> next = new ArrayList<>(movies);
-        CardStackCallback callback = new CardStackCallback(old, next);
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
-        adapter.setItems(next);
-        result.dispatchUpdatesTo(adapter);
-    }
+
 
     private void callAPI() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
