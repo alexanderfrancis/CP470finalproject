@@ -1,4 +1,4 @@
-1\. Introduction
+1\. CuddleBug App Report
 ----------------
 
 ### 1.1 Purpose
